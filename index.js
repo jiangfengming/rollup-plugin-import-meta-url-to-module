@@ -17,7 +17,7 @@ module.exports = function(options = {}) {
           assets[pathname] = '__' + path.basename(pathname).replace(/\W/g, '_') + '__';
         }
 
-        return `new URL(${assets[pathname]})`;
+        return `new URL(${assets[pathname]}, import.meta.url)`;
       });
 
       if (Object.keys(assets).length) {
