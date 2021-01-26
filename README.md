@@ -8,7 +8,7 @@ const imgUrl = new URL('path/to/asset.png', import.meta.url);
 Output:
 ```js
 import __asset_png__ from "path/to/asset.png";
-const imgUrl = new URL(__asset_png__);
+const imgUrl = new URL(__asset_png__, import.meta.url);
 ```
 
 ## Installation
