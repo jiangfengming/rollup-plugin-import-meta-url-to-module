@@ -1,6 +1,6 @@
 {
   "name": "rollup-plugin-import-meta-url-to-module",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Transform `new URL(\"path/to/asset.png\", import.meta.url)` to `import __asset_png__ from \"path/to/asset.png\"`",
   "main": "index.js",
   "scripts": {
