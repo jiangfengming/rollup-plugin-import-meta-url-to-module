@@ -1,5 +1,5 @@
-import assert from 'assert';
-import urlToModule from './index.js';
+const assert = require('assert');
+const urlToModule = require('./index.js');
 
 const input = "const imgUrl = new URL('path/to/asset.png', import.meta.url);";
 const output = urlToModule().transform(input, '/path/to/file');

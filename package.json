@@ -3,7 +3,6 @@
   "version": "0.2.0",
   "description": "Transform `new URL(\"path/to/asset.png\", import.meta.url)` to `import __asset_png__ from \"path/to/asset.png\"`",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "node test"
   },

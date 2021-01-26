@@ -1,7 +1,7 @@
-import path from 'path';
-import { createFilter } from '@rollup/pluginutils';
+const path = require('path');
+const { createFilter } = require('@rollup/pluginutils');
 
-export default function(options = {}) {
+module.exports = function(options = {}) {
   const filter = createFilter( options.include, options.exclude );
 
   return {
