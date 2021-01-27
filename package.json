@@ -20,7 +20,7 @@
     "url": "https://github.com/jiangfengming/rollup-plugin-import-meta-url-to-module/issues"
   },
   "homepage": "https://github.com/jiangfengming/rollup-plugin-import-meta-url-to-module#readme",
-  "devDependencies": {
+  "dependencies": {
     "@rollup/pluginutils": "^4.1.0"
   }
 }
