@@ -1,8 +1,8 @@
 const path = require('path');
 const { createFilter } = require('@rollup/pluginutils');
 
-module.exports = function(options = {}) {
-  const filter = createFilter( options.include, options.exclude );
+module.exports = function({ include, exclude, optimizeHref = false } = {}) {
+  const filter = createFilter(include, exclude);
 
   return {
     transform(code, id) {
@@ -12,17 +12,21 @@ module.exports = function(options = {}) {
 
       const assets = {};
 
-      code = code.replace(/new URL\((?:'|")([^'"]+)(?:'|"),\s*import\.meta\.url\)(\.href)?/g, (str, pathname, href) => {
-        if (!assets[pathname]) {
-          assets[pathname] = '__' + path.basename(pathname).replace(/\W/g, '_') + '__';
-        }
+      code = code.replace(
+        /new URL\((?:'|")([^'"]+)(?:'|"),\s*import\.meta\.url\)(\.href)?/g,
 
-        if (href) {
-          return assets[pathname];
-        } else {
-          return `new URL(${assets[pathname]}, import.meta.url || document.baseURI || self.location.href)`;
+        (str, pathname, href = '') => {
+          if (!assets[pathname]) {
+            assets[pathname] = '__' + path.basename(pathname).replace(/\W/g, '_') + '__';
+          }
+
+          if (href && optimizeHref) {
+            return assets[pathname];
+          } else {
+            return `new URL(${assets[pathname]}, import.meta.url || document.baseURI || self.location.href)${href}`;
+          }
         }
-      });
+      );
 
       if (Object.keys(assets).length) {
         code = Object.entries(assets)

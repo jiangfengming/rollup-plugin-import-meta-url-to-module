@@ -12,7 +12,36 @@ import __asset_png__ from "path/to/asset.png";
 const imgUrl = new URL(__asset_png__, import.meta.url || document.baseURI || self.location.href);
 ```
 
-If `.href` is append, the output code will be optimized:
+## Installation
+
+```
+npm i rollup-plugin-import-meta-url-to-module
+```
+
+## Usage
+`vite.config.js`:
+
+```js
+import urlToModule from 'rollup-plugin-import-meta-url-to-module';
+
+export default {
+  plugins: [
+    urlToModule(options)
+  ]
+};
+```
+
+Maybe it can be used in rollup alone, but I haven't tested it.
+
+## Options
+
+### `include` and `exclude`
+See https://github.com/rollup/plugins/tree/master/packages/pluginutils#include-and-exclude
+
+### `optimizeHref`
+Defaults: `false`. 
+
+If `.href` is append and `optimizeHref` is `true`, the output code will be optimized:
 
 Input:
 ```js
@@ -31,23 +60,3 @@ So we just use the imported file path.
 
 But there is a small problem, the file path will not always be a Full URL,
 it depends on the `base` option.
-## Installation
-
-```
-npm i rollup-plugin-import-meta-url-to-module
-```
-
-## Usage
-`vite.config.js`:
-
-```js
-import urlToModule from 'rollup-plugin-import-meta-url-to-module';
-
-export default {
-  plugins: [
-    urlToModule()
-  ]
-};
-```
-
-Maybe it can be used in rollup alone, but I haven't tested it.
