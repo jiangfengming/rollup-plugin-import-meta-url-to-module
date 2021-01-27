@@ -12,12 +12,16 @@ module.exports = function(options = {}) {
 
       const assets = {};
 
-      code = code.replace(/new URL\((?:'|")([^'"]+)(?:'|"),\s*import\.meta\.url\)/g, (str, pathname) => {
+      code = code.replace(/new URL\((?:'|")([^'"]+)(?:'|"),\s*import\.meta\.url\)(\.href)?/g, (str, pathname, href) => {
         if (!assets[pathname]) {
           assets[pathname] = '__' + path.basename(pathname).replace(/\W/g, '_') + '__';
         }
 
-        return `new URL(${assets[pathname]}, import.meta.url)`;
+        if (href) {
+          return assets[pathname];
+        } else {
+          return `new URL(${assets[pathname]}, import.meta.url || document.baseURI || self.location.href)`;
+        }
       });
 
       if (Object.keys(assets).length) {

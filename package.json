@@ -1,7 +1,7 @@
 {
   "name": "rollup-plugin-import-meta-url-to-module",
   "version": "0.2.4",
-  "description": "Transform `new URL(\"path/to/asset.png\", import.meta.url)` to `import __asset_png__ from \"path/to/asset.png\"`",
+  "description": "Transform `new URL(..., import.meta.url)` to `import` statement",
   "main": "index.js",
   "scripts": {
     "test": "node test"
@@ -11,7 +11,8 @@
     "url": "git+https://github.com/jiangfengming/rollup-plugin-import-meta-url-to-module.git"
   },
   "keywords": [
-    "rollup-plugin"
+    "rollup-plugin",
+    "vite"
   ],
   "author": "Jiang Fengming",
   "license": "MIT",
