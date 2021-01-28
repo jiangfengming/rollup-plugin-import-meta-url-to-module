@@ -1,40 +1,47 @@
-const path = require('path');
 const { createFilter } = require('@rollup/pluginutils');
+const MagicString = require('magic-string');
 
 module.exports = function({ include, exclude, optimizeHref = false } = {}) {
   const filter = createFilter(include, exclude);
 
   return {
     transform(code, id) {
-      if (!filter(id)){
+      if (!filter(id)) {
         return;
       }
 
-      const assets = {};
+      const matches = [...code.matchAll(/new URL\((?:'|")([^'"]+)(?:'|"),\s*import\.meta\.url\)(\.href)?/g)];
 
-      code = code.replace(
-        /new URL\((?:'|")([^'"]+)(?:'|"),\s*import\.meta\.url\)(\.href)?/g,
+      if (matches.length) {
+        const s = new MagicString(code);
+        const imported = [];
 
-        (str, pathname, href = '') => {
-          if (!assets[pathname]) {
-            assets[pathname] = '__' + path.basename(pathname).replace(/\W/g, '_') + '__';
+        for (const match of matches) {
+          const start = match.index;
+          const [str, pathname, href = ''] = match;
+          const varName = '__' + pathname.replace(/\W/g, '_') + '__';
+
+          if (!imported[varName]) {
+            s.prepend(`import ${varName} from "${pathname}";\n`);
+            imported[varName] = true;
           }
 
-          if (href && optimizeHref) {
-            return assets[pathname];
-          } else {
-            return `new URL(${assets[pathname]}, import.meta.url || document.baseURI || self.location.href)${href}`;
-          }
+          s.overwrite(
+            start,
+            start + str.length,
+            href && optimizeHref
+              ? varName
+              : `new URL(${varName}, import.meta.url || document.baseURI || self.location.href)${href}`
+          );
         }
-      );
 
-      if (Object.keys(assets).length) {
-        code = Object.entries(assets)
-          .map(([pathname, varName]) => `import ${varName} from "${pathname}";`)
-          .join('\n') + '\n' + code;
+        return {
+          code: s.toString(),
+          map: s.generateMap({ hires: true })
+        }
+      } else {
+        return;
       }
-
-      return code;
     }
   };
 };
