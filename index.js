@@ -37,7 +37,7 @@ module.exports = function({ include, exclude, optimizeHref = false } = {}) {
 
         return {
           code: s.toString(),
-          map: s.generateMap({ hires: true })
+          map: s.generateMap({ source: id })
         }
       } else {
         return;
