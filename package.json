@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/jiangfengming/rollup-plugin-import-meta-url-to-module#readme",
   "dependencies": {
-    "@rollup/pluginutils": "^4.1.0",
-    "magic-string": "^0.25.7"
+    "@rollup/pluginutils": "^5.0.1",
+    "magic-string": "^0.26.7"
   }
 }
