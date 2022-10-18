@@ -1,6 +1,6 @@
 {
   "name": "rollup-plugin-import-meta-url-to-module",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "Transform `new URL(..., import.meta.url)` to `import` statement",
   "main": "index.js",
   "scripts": {
